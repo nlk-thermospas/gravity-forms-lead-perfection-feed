@@ -228,7 +228,7 @@ if (class_exists("GFForms")) {
             curl_close($ch);
 
             if ( strpos( $response, '[OK]' ) !== false )
-                gform_update_meta($entry['id'], 'lead_perfection_response', $response);
+                gform_update_meta($entry['id'], 'lead_perfection_response', '[OK]');
 
         }
         
