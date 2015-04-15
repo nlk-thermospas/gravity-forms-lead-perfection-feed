@@ -94,8 +94,18 @@ if (class_exists("GFForms")) {
                                 array("name" => "Zipcode","label" => "Zip Code","required" => 0),
                                 array("name" => "Phone","label" => "Phone","required" => 0),
                                 array("name" => "Email","label" => "Email Address","required" => 0),
-                                array("name" => "Comments","label" => "Comments","required" => 0),
                                 array("name" => "Ht_date","label" => "Ht date","required" => 0),
+                            ),
+                        ),
+                        array(
+                            "name" => "lpMappedFieldComments",
+                            "label" => "Comments Meta",
+                            "type" => "field_map",
+                            "tooltip" => "Map each Lead Perfection Field to Gravity Form Field",
+                            "field_map" => array(
+                                array("name" => "MailingList","label" => "Mailing List","required" => 0),
+                                array("name" => "SIDate","label" => "Site Inspection Date","required" => 0),
+                                array("name" => "SITime","label" => "Site Inspection Time","required" => 0),
                             ),
                         ),
                         array(
@@ -186,6 +196,7 @@ if (class_exists("GFForms")) {
         public function process_feed($feed, $entry, $form){
 
             // working vars
+            $comments = array();
             $url = $this->get_plugin_setting('feed_postURL');
             if ( ! $url ) return false;
             
@@ -212,10 +223,28 @@ if (class_exists("GFForms")) {
             // iterate over meta data mapped fields (from feed fields) and apply to the array above
             foreach ($feed['meta'] as $k => $v) {
                 $l = explode("_", $k);
-                if ( isset( $l[1] ) && array_key_exists( $l[1], $array ) && !empty( $v ) ) :
+                if ( isset( $l[0] ) && $l[0] == 'lpMappedFieldComments' ) {
+                    switch ( $l[1] ) {
+                        case 'MailingList':
+                            $comments[] = 'Join Mailing List: ' . $v;
+                            break;
+                        case 'SIDate':
+                            $comments[] = 'Site Inspection Request on Date: ' . $v;
+                            break;
+                        case 'SITime':
+                            $comments[] = 'Time: ' . $v;
+                            break;
+                        default:
+                            # code...
+                            break;
+                    }
+                }
+                else if ( isset( $l[1] ) && array_key_exists( $l[1], $array ) && !empty( $v ) ) :
                     $array[ $l[1] ] = $entry[ $v ];
                 endif;
             }
+            $array['Comments'] = implode(', ', $comments);
+
             // Remove empty ARRAY fields so we do not submit blank data
             $array = array_filter( $array );
 
