@@ -198,7 +198,7 @@ if (class_exists("GFForms")) {
             // working vars
             $comments = array();
             $url = $this->get_plugin_setting('feed_postURL');
-            if ( ! $url ) return false;
+            //if ( ! $url ) return false;
             
             // current user info
             global $current_user;
@@ -258,6 +258,10 @@ if (class_exists("GFForms")) {
             if ( strpos( $response, '[OK]' ) !== false )
                 gform_update_meta($entry['id'], 'lead_perfection_response', '[OK]');
 
+            print('<pre>');
+            print_r($feed);
+            print_r($entry);
+            print('</pre>');
         }
         
         /**
