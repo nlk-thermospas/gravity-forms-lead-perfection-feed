@@ -198,7 +198,7 @@ if (class_exists("GFForms")) {
             // working vars
             $comments = array();
             $url = $this->get_plugin_setting('feed_postURL');
-            //if ( ! $url ) return false;
+            if ( ! $url ) return false;
             
             // current user info
             global $current_user;
@@ -226,19 +226,19 @@ if (class_exists("GFForms")) {
                 if ( isset( $l[0] ) && $l[0] == 'lpMappedFieldComments' && !empty( $v ) ) :
                     switch ( $l[1] ) {
                         case 'MailingList':
-                            $comments[] = 'Join Mailing List: ' . $v;
+                            $comments[] = 'Join Mailing List: ' . $entry[ $v ];
                             break;
                         case 'SIDate':
-                            $comments[] = 'Site Inspection Request on Date: ' . $v;
+                            $comments[] = 'Site Inspection Request on Date: ' . $entry[ $v ];
                             break;
                         case 'SITime':
-                            $comments[] = 'Time: ' . $v;
+                            $comments[] = 'Time: ' . $entry[ $v ];
                             break;
                         default:
                             # code...
                             break;
                     }
-                elseif ( isset( $l[1] ) && array_key_exists( $l[1], $array ) && !empty( $v ) ) :
+                elseif ( isset( $l[1] ) && array_key_exists( $l[1], $array ) && !empty( $v ) && !empty( $entry[ $v ] ) ) :
                     $array[ $l[1] ] = $entry[ $v ];
                 endif;
             }
@@ -255,20 +255,17 @@ if (class_exists("GFForms")) {
 
             curl_close($ch);
 
-            if ( strpos( $response, '[OK]' ) !== false )
-                gform_update_meta($entry['id'], 'lead_perfection_response', '[OK]');
-
             $this->_feed_result['FEED'] = $feed;
             $this->_feed_result['ENTRY'] = $entry;
+            $this->_feed_result['POST URL'] = $url;
+            $this->_feed_result['Response'] = $response;
 
-            add_action('wp_footer', array( $this, 'lead_debug_confirm_footer') );
-            add_filter("gform_confirmation", "lead_debug_confirm", 10, 4);
-            
+            add_filter("gform_confirmation", array($this, "lead_debug_confirm"), 10, 4);
             
         }
+        
+        public function lead_debug_confirm() {
 
-        public function lead_debug_confirm_footer()
-        {
             $arrays = $this->_feed_result;
             $o = '<div id="gform-debug" ><h3>Debug Details</h3><hr>';
             foreach ($arrays as $array => $value)
@@ -276,17 +273,7 @@ if (class_exists("GFForms")) {
                 $o .='<h4>'.$array.'</h4><pre>'.print_r($value, true).'</pre><hr>';
             }
             $o .= '</div>';
-            print($o);
-        }
-        public function lead_debug_confirm($confirmation, $form, $lead, $ajax)
-        {
-            $arrays = $this->_feed_result;
-            $o = '<div id="gform-debug" ><h3>Debug Details</h3><hr>';
-            foreach ($arrays as $array => $value)
-            {
-                $o .='<h4>'.$array.'</h4><pre>'.print_r($value, true).'</pre><hr>';
-            }
-            $o .= '</div>';
+            
             return $o;
         }
         
