@@ -261,13 +261,13 @@ if (class_exists("GFForms")) {
             $this->_feed_result['FEED'] = $feed;
             $this->_feed_result['ENTRY'] = $entry;
 
-            add_action('wp_footer', array( $this, 'lead_debug_confirm') );
+            add_action('wp_footer', array( $this, 'lead_debug_confirm_footer') );
             add_filter("gform_confirmation", "lead_debug_confirm", 10, 4);
             
             
         }
 
-        public function lead_debug_confirm($confirmation, $form, $lead, $ajax)
+        public function lead_debug_confirm_footer()
         {
             $arrays = $this->_feed_result;
             $o = '<div id="gform-debug" ><h3>Debug Details</h3><hr>';
@@ -277,6 +277,16 @@ if (class_exists("GFForms")) {
             }
             $o .= '</div>';
             print($o);
+        }
+        public function lead_debug_confirm($confirmation, $form, $lead, $ajax)
+        {
+            $arrays = $this->_feed_result;
+            $o = '<div id="gform-debug" ><h3>Debug Details</h3><hr>';
+            foreach ($arrays as $array => $value)
+            {
+                $o .='<h4>'.$array.'</h4><pre>'.print_r($value, true).'</pre><hr>';
+            }
+            $o .= '</div>';
             return $o;
         }
         
