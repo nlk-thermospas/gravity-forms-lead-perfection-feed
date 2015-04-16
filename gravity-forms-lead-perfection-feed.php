@@ -258,9 +258,10 @@ if (class_exists("GFForms")) {
             if ( strpos( $response, '[OK]' ) !== false )
                 gform_update_meta($entry['id'], 'lead_perfection_response', '[OK]');
 
-            add_filter("gform_confirmation", "lead_debug_confirm", 10, 4);
-            $_feed_result['FEED'] = $feed;
-            $_feed_result['ENTRY'] = $entry;
+            $this->_feed_result['FEED'] = $feed;
+            $this->_feed_result['ENTRY'] = $entry;
+            add_filter("gform_confirmation", array( $this, "lead_debug_confirm" ), 10, 4);
+            
         }
 
         public function lead_debug_confirm($confirmation, $form, $lead, $ajax)
