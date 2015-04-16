@@ -223,7 +223,7 @@ if (class_exists("GFForms")) {
             // iterate over meta data mapped fields (from feed fields) and apply to the array above
             foreach ($feed['meta'] as $k => $v) {
                 $l = explode("_", $k);
-                if ( isset( $l[0] ) && $l[0] == 'lpMappedFieldComments' ) {
+                if ( isset( $l[0] ) && $l[0] == 'lpMappedFieldComments' && !empty( $v ) ) :
                     switch ( $l[1] ) {
                         case 'MailingList':
                             $comments[] = 'Join Mailing List: ' . $v;
@@ -238,8 +238,7 @@ if (class_exists("GFForms")) {
                             # code...
                             break;
                     }
-                }
-                else if ( isset( $l[1] ) && array_key_exists( $l[1], $array ) && !empty( $v ) ) :
+                elseif ( isset( $l[1] ) && array_key_exists( $l[1], $array ) && !empty( $v ) ) :
                     $array[ $l[1] ] = $entry[ $v ];
                 endif;
             }
