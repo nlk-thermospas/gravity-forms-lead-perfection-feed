@@ -260,8 +260,10 @@ if (class_exists("GFForms")) {
 
             $this->_feed_result['FEED'] = $feed;
             $this->_feed_result['ENTRY'] = $entry;
-            add_filter("gform_confirmation", array( $this, "lead_debug_confirm" ), 10, 4);
+
             add_action('wp_footer', array( $this, 'lead_debug_confirm') );
+            add_filter("gform_confirmation", "lead_debug_confirm", 10, 4);
+            
             
         }
 
