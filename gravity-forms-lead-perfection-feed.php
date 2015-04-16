@@ -260,11 +260,12 @@ if (class_exists("GFForms")) {
             $this->_feed_result['POST URL'] = $url;
             $this->_feed_result['Response'] = $response;
 
-            add_filter("gform_confirmation", array($this, "lead_debug_confirm"), 10, 4);
+            // Debug Mode - uncomment following line for debugging
+            //add_filter("gform_confirmation", array($this, "lead_debug_confirm"), 10, 4);
             
         }
         
-        public function lead_debug_confirm() {
+        public function lead_debug_confirm($confirmation, $form, $lead, $ajax) {
 
             $arrays = $this->_feed_result;
             $o = '<div id="gform-debug" ><h3>Debug Details</h3><hr>';
