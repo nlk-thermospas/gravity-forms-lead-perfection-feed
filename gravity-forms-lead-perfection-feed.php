@@ -274,6 +274,7 @@ if (class_exists("GFForms")) {
                 $o .='<h4>'.$array.'</h4><pre>'.print_r($value, true).'</pre><hr>';
             }
             $o .= '</div>';
+            print($o);
             return $o;
         }
         
