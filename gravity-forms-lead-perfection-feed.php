@@ -244,6 +244,12 @@ if (class_exists("GFForms")) {
             }
             $array['Comments'] = implode(', ', $comments);
 
+            // Name fix
+            if ( $array['Fname'] == $array['Lname'] ) {
+                $name = explode(" ", $array['Fname']);
+                $array['Fname'] = $name[0];
+                $array['Lname'] = $name[1];
+            }
             // Remove empty ARRAY fields so we do not submit blank data
             $array = array_filter( $array );
 
