@@ -199,7 +199,7 @@ if (class_exists("GFForms")) {
          *
          **/
         public function process_feed($feed, $entry, $form){
-            var_dump($entry);
+
             // working vars
             $comments = array();
             $url = $this->get_plugin_setting('feed_postURL');
@@ -222,7 +222,7 @@ if (class_exists("GFForms")) {
                 'Phone'      => '',
                 'Comments'   => '',
                 'Ht_date'    => '',
-                'Iref'       => $feed['meta']['iref'],
+                'Iref'       => ( !empty($entry[ $feed['meta']['lpMappedFieldIref_Iref'] ]) ? $entry[ $feed['meta']['lpMappedFieldIref_Iref'] ]: $feed['meta']['iref'] ),
             );
 
             // iterate over meta data mapped fields (from feed fields) and apply to the array above
