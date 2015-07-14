@@ -106,6 +106,11 @@ if (class_exists("GFForms")) {
                                 array("name" => "MailingList","label" => "Mailing List","required" => 0),
                                 array("name" => "SIDate","label" => "Site Inspection Date","required" => 0),
                                 array("name" => "SITime","label" => "Site Inspection Time","required" => 0),
+                                array("name" => "Model","label" => "Model","required" => 0),
+                                array("name" => "Jets","label" => "Jets","required" => 0),
+                                array("name" => "Shell","label" => "Shell","required" => 0),
+                                array("name" => "Cabinet","label" => "Cabinet","required" => 0),
+                                array("name" => "Options","label" => "Options","required" => 0),
                             ),
                         ),
                         array(
@@ -194,7 +199,7 @@ if (class_exists("GFForms")) {
          *
          **/
         public function process_feed($feed, $entry, $form){
-
+            var_dump($entry);
             // working vars
             $comments = array();
             $url = $this->get_plugin_setting('feed_postURL');
@@ -233,6 +238,21 @@ if (class_exists("GFForms")) {
                             break;
                         case 'SITime':
                             $comments[] = 'Time: ' . $entry[ $v ];
+                            break;
+                        case 'Model':
+                            $comments[] = 'Model: ' . $entry[ $v ];
+                            break;
+                        case 'Jets':
+                            $comments[] = 'Jets: ' . $entry[ $v ];
+                            break;
+                        case 'Shell':
+                            $comments[] = 'Shell: ' . $entry[ $v ];
+                            break;
+                        case 'Cabinet':
+                            $comments[] = 'Cabinet: ' . $entry[ $v ];
+                            break;
+                        case 'Options':
+                            $comments[] = 'Options: ' . $entry[ $v ];
                             break;
                         default:
                             # code...
