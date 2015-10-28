@@ -268,7 +268,7 @@ if (class_exists("GFForms")) {
             if ( $array['Fname'] == $array['Lname'] ) {
                 $name = explode(" ", $array['Fname']);
                 $array['Fname'] = $name[0];
-                $array['Lname'] = $name[1];
+                $array['Lname'] = ( isset($name[1]) ? $name[1] : ' ' );
             }
             // Remove empty ARRAY fields so we do not submit blank data
             $array = array_filter( $array );
